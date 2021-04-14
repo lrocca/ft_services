@@ -1,0 +1,85 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    nginx.yaml                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/04/14 15:10:19 by lrocca            #+#    #+#              #
+#    Updated: 2021/04/14 20:45:22 by lrocca           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: secret-volumes
+        secret:
+          secretName: nginx-secret
+      containers:
+      - name: nginx
+        image: ft-services/nginx
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+        - containerPort: 22
+          name: ssh
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl
+          name: secret-volumes
+        # livenessProbe:
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 5
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: nginx-secret
+#   namespace: default
+# type: kubernetes.io/tls
+# data:
+#   tls.crt: "MIIDRjCCAi4CCQD5aG+NDqqq7DANBgkqhkiG9w0BAQsFADBlMQswCQYDVQQGEwJJVDENMAsGA1UECAwEUm9tYTENMAsGA1UEBwwEUm9tYTEVMBMGA1UECgwMbHJvY2NhQDQyLmZyMQ0wCwYDVQQLDARWb2lkMRIwEAYDVQQDDAlsb2NhbGhvc3QwHhcNMjEwNDE0MTgyODQ4WhcNMjIwNDE0MTgyODQ4WjBlMQswCQYDVQQGEwJJVDENMAsGA1UECAwEUm9tYTENMAsGA1UEBwwEUm9tYTEVMBMGA1UECgwMbHJvY2NhQDQyLmZyMQ0wCwYDVQQLDARWb2lkMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCZVuZ2FHJwTd6ZeD/CUrEE3R6oU6Rrl3SIp/i51youK5UH5+0OhGLqiokRZT/GnPMJeLC+thUDppf32x6Y8Jk546T3EUKmh8OYliws1fRRyYl0AcFV21IsKPbv2icLRYl+PV0enl6PLQnQu+m87RTP8LygigJItZ7iX4FyVXbNgVjvzyRdgagr/A3Vh+cC1uQHSWlVCkPsAN+l42ltL4fB3/PUQi/rHqsnLqPyAfzHqyhtc6KKs1jmoJ8FqsYFI9U9z1gzu7PfvHMcwqGsZaJSWyf9CUpknNahwmjAvxbl5jOrOB2usRh6Sntk1cYCHosvqg7qQJ+vSaoyqfNSKh0xAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAFrPpwiW02peHw2EzxvLBKrmo81pi264GA+pyQW6UINNzJJopV/dkgzFKRnKpA4W/uC47pwyWWf+uBt/cl+BV1HKJ6qozCjyjrSZwTA5X+Kal7332CmngpiRvg4i2UDbkMF2jMqFE6X7ifq6l2B49Wt5rFv5g2gCsCoZiOIctgArEPec8sNaAs0Nyo8eKNvmlvLknHddBj4vwQ5C0X5DYR2yNfQbNWU7DkvcW5e+ilwYKNG51xy3iHpqLnDINCCmIlydASkPNK0cR/vLWMjTSPvVgaVhjSGh/P/erH8xofv0X6D5vdSSmWCH5laTh/weJP5pV6azHvLb37f/YsANDcU="
+#   tls.key: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZVuZ2FHJwTd6ZeD/CUrEE3R6oU6Rrl3SIp/i51youK5UH5+0OhGLqiokRZT/GnPMJeLC+thUDppf32x6Y8Jk546T3EUKmh8OYliws1fRRyYl0AcFV21IsKPbv2icLRYl+PV0enl6PLQnQu+m87RTP8LygigJItZ7iX4FyVXbNgVjvzyRdgagr/A3Vh+cC1uQHSWlVCkPsAN+l42ltL4fB3/PUQi/rHqsnLqPyAfzHqyhtc6KKs1jmoJ8FqsYFI9U9z1gzu7PfvHMcwqGsZaJSWyf9CUpknNahwmjAvxbl5jOrOB2usRh6Sntk1cYCHosvqg7qQJ+vSaoyqfNSKh0xAgMBAAECggEALyoZjOxRHtX0yAPCqMTCihpxWZkQk79sKrRvvsm9waHKHzppIfP6cOXXrzATY8XWw20KAD8FS7AsQiJ10NkAaFvq28vFUm+j7AUU5V2R3q48xx/bFct2BPs8qR3SsJbc6aV6RPa1YxiZUkjaZjAOHL+RZVfNyAuFKV/y8vXyqtbKVBFyVemP41bCOb8KyHzS/5Zru+LQNg38PQD5RGVjRKzTWpqzvkTap1SIX6g8RMLltWDfOGmChrg96vZOKz//oCCjZPx1+P+0FezGyFCKxalzfhywQMEozVpMWopEZpkMbcIeG1gCZBVmYcuFOeZ5dSXNypHckuC1HHnJPdE2IQKBgQDLt6+Fg5Ljn3J2kgxHw6VdR01f37Ug408ovGaUwwzxQ5ryhFqXDVCxKjPDEhDDo9VEWGBMm1h1Lg+pDxpkIgE7k9l9gwoI6alzVXs06n+x6IP+kBu2ahTeMiIOodxhpI2TYNCM3+54higxWlwN8vYnmArVLI+4ZZxqEdQ3bfZA/QKBgQDAsVuBzXaBIK8Cd8OY2ijsKg8/WhJ2W7JfBIxFJBGtGQ1N0ntkOgWj4dAilJmfLpCLdeP1UzDKeJnXq/0aREkYM6wZwvU+SMdSGjjprtT1Y51jmHXQxC8akPY0nt1wO/fxdOqGwaCX0x4RKBejnr57XvCk2GPgzTQlhSaia8DNRQKBgQCcUFq2+OmKDTu4LYKMwlutwltlmHMURDbmTAHuXegdbEGFmvcj9oyXFInZQZBpfdnT8ngZ8A0lBO3xS+x1Lv6BJ4Z330eg5SInpEzAorrO2VoGx67r/mP6xr8JOTuwFKKpll0P63fBNTe7/tipv2cPpIOTZPj2hclKPln3GkIdRQKBgEKK/PbOZWYiS02m3j0i2Y70118hU87by7VUdLxLwG7uf9GoJkRuZRQ7Hw1SE9sM0Y3XoGlP2UGSdE4ubrFrc3KQJZaf5OElcO/BbnYEkjZLuEZ0l/sIRNv/w4ZYdlAT5YPUxEjVBQhpN7DlD4TJhS5FkwTaVWOEecWbPcRJQcOhAoGAeUPhGeIYJpOOrLe8JBSa9mwCs8GVcE5P65Cvg4LzSMb4Qoj+0FjU7nDHF0EQWNQANpKyi25TmewRM2pHf4W5mVTSz1cvaPP1os4cE79Q361ScsdeLamD1R0i9/vhPJASmVaxqIh82efP5BWBvUZ7IFBgTxX3Ot0fVcfcaUQQzcg="
