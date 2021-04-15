@@ -11,7 +11,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-if [[ "$1" == "dashboard" ]] || [[ "$1" == "purge" ]] || [[ "$1" == "reset" ]]; then
+if [[ "$1" == "dashboard" ]] || [[ "$1" == "purge" ]] || [[ "$1" == "reset" ]] \
+|| [[ "$1" == "reload" ]]; then
 	./srcs/scripts/$1.sh
 	exit
 fi
@@ -40,5 +41,5 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 ## apply metallb configuration
 $apply ./srcs/metallb.yaml
 
-kubectl delete pod,deployment,services nginx
 deploy nginx
+deploy wordpress
