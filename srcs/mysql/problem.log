@@ -20,7 +20,9 @@
 2021-04-15 17:29:03 0 [Note] InnoDB: Buffer pool(s) load completed at 210415 17:29:03
 2021-04-15 17:29:03 0 [ERROR] Can't open and lock privilege tables: Table 'mysql.servers' doesn't exist
 2021-04-15 17:29:03 0 [ERROR] Fatal error: Can't open and lock privilege tables: Table 'mysql.db' doesn't exist
-2021-04-15 17:29:03 0 [ERROR] Aborting/ # mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+2021-04-15 17:29:03 0 [ERROR] Aborting
+
+/ # mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 chown: /auth_pam_tool_dir/auth_pam_tool: No such file or directory
 Couldn't set an owner to '/auth_pam_tool_dir/auth_pam_tool'.
 It must be root, the PAM authentication plugin doesn't work otherwise..

@@ -11,15 +11,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# create service account
-# cat <<EOF | kubectl apply -f -
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: admin-user
-#   namespace: kubernetes-dashboard
-# EOF
-
 # apply default dashboard configuration
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
 
@@ -28,6 +19,15 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/a
 
 # enable skip login to dashboard
 kubectl patch deployment kubernetes-dashboard -n kubernetes-dashboard --type 'json' -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--enable-skip-login"}]'
+
+# create service account
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
 
 # open dashboard in default browser
 open "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=default"

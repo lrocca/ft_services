@@ -5,30 +5,31 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/13 19:09:42 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/16 18:31:22 by lrocca           ###   ########.fr        #
+#    Created: 2021/04/16 16:34:55 by lrocca            #+#    #+#              #
+#    Updated: 2021/04/19 18:41:08 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FROM	alpine
 
-EXPOSE	80 443 22
+EXPOSE	5000
+
+ARG		PMA_ARCHIVE=phpMyAdmin-latest-english.tar.xz
 
 # packages
 RUN		apk update && apk upgrade
-RUN		apk add --no-cache nginx openssl openssh
-# RUN		rm -rf /var/cache/apk/*
+RUN		apk add --no-cache nginx wget php7 php7-fpm php7-iconv php7-json \
+		php7-mysqli php7-openssl php7-xml php7-session php7-mbstring
 
 # nginx
 RUN		mkdir -p /run/nginx
-COPY	./src/index.html ./src/favicon.png /var/www/localhost/htdocs/
 COPY	./src/nginx.conf /etc/nginx/nginx.conf
 
-# ssl
-RUN		mkdir /etc/nginx/ssl
-RUN		openssl req -newkey rsa:2048 -nodes -days 365 -x509 \
-		-subj "/C=IT/ST=Roma/L=Roma/O=lrocca/OU=Void/CN=localhost" \
-		-keyout /etc/nginx/ssl/tls.key -out /etc/nginx/ssl/tls.crt
+# phpmyadmin
+RUN		wget -P /tmp https://www.phpmyadmin.net/downloads/$PMA_ARCHIVE
+RUN		tar -xvf /tmp/$PMA_ARCHIVE -C /var/www/localhost/htdocs --strip-components=1
+COPY	./src/config.inc.php /var/www/localhost/htdocs
+RUN		rm -f /tmp/$PMA_ARCHIVE
 
-# start nginx process
-CMD		["/usr/sbin/nginx", "-g", "daemon off;"]
+# start php runner and nginx process
+CMD		php-fpm7 && /usr/sbin/nginx -g "daemon off;"

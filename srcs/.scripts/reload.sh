@@ -18,5 +18,7 @@ reload() {
 }
 
 # reload nginx
+# reload mysql
+# reload phpmyadmin
 # reload wordpress
-reload mysql
+reload grafana

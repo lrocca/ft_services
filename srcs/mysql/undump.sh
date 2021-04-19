@@ -1,34 +1,17 @@
+#!/bin/sh
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    nginx.conf                                         :+:      :+:    :+:    #
+#    undump.sh                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/15 16:40:42 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/15 18:17:28 by lrocca           ###   ########.fr        #
+#    Created: 2021/04/19 18:28:20 by lrocca            #+#    #+#              #
+#    Updated: 2021/04/19 18:28:20 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-events {}
+mysql -u root < /tmp/dump.sql
+mysql -u root < /tmp/pma.sql
 
-http {
-	include /etc/nginx/mime.types;
-	server {
-		listen 80;
-		listen [::]:80;
-
-		index index.php;
-		root /var/www/localhost/htdocs;
-
-		# location / {
-		# 	try_files $uri $uri/ /index.php?$args;
-		# }
-
-		location ~ \.php$ {
-			include fastcgi.conf;
-			fastcgi_pass 127.0.0.1:9000;
-			fastcgi_index index.php;
-		}
-	}
-}
+rm -f /tmp/dump.sql /tmp/undump.sh /tmp/init.sql /tmp/pma.sql

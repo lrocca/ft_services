@@ -13,7 +13,7 @@
 
 if [[ "$1" == "dashboard" ]] || [[ "$1" == "purge" ]] || [[ "$1" == "reset" ]] \
 || [[ "$1" == "reload" ]]; then
-	./srcs/scripts/$1.sh
+	./srcs/.scripts/$1.sh
 	exit
 fi
 
@@ -24,22 +24,28 @@ deploy() {
 	$apply ./srcs/$1/$1.yaml
 }
 
-# metallb
-# https://metallb.universe.tf/installation/
+# # metallb
+# # https://metallb.universe.tf/installation/
 
-## enable strict arp mode
-kubectl get configmap kube-proxy -n kube-system -o yaml | \
-sed -e "s/strictARP: false/strictARP: true/" | \
-$apply - -n kube-system
+# ## enable strict arp mode
+# kubectl get configmap kube-proxy -n kube-system -o yaml | \
+# sed -e "s/strictARP: false/strictARP: true/" | \
+# $apply - -n kube-system
 
-## install by manifest
-$apply https://raw.githubusercontent.com/metallb/metallb/v0.9.6/manifests/namespace.yaml
-$apply https://raw.githubusercontent.com/metallb/metallb/v0.9.6/manifests/metallb.yaml
-### On first install only
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+# ## install by manifest
+# $apply https://raw.githubusercontent.com/metallb/metallb/v0.9.6/manifests/namespace.yaml
+# $apply https://raw.githubusercontent.com/metallb/metallb/v0.9.6/manifests/metallb.yaml
+# ### On first install only
+# kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 
-## apply metallb configuration
-$apply ./srcs/metallb.yaml
+# ## apply metallb configuration
+# # $apply ./srcs/tls.yaml
+# $apply ./srcs/metallb.yaml
 
-deploy nginx
-deploy wordpress
+# deploy mysql
+# deploy nginx
+# deploy wordpress
+# deploy phpmyadmin
+# deploy grafana
+deploy influxdb
+# kubectl exec -it `kubectl get pods | grep mysql | tr ' ' '\n' | head -n 1` -- sh /tmp/undump.sh
