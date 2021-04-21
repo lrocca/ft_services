@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/19 19:36:19 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/19 20:12:38 by lrocca           ###   ########.fr        #
+#    Updated: 2021/04/21 01:16:10 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,8 @@ spec:
         image: ft-services/grafana
         imagePullPolicy: Never
         ports:
-        - containerPort: 3000
-          name: grafana
+        - name: grafana
+          containerPort: 3000
         volumeMounts:
           - name: grafana-config
             mountPath: /etc/grafana.ini

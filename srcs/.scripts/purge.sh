@@ -29,7 +29,7 @@ kubectl delete --all pod,deployment,services,configmap
 # docker image prune -f
 
 # delete all docker images and containers
-docker rmi $(docker images -q)
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
-docker rmi $(docker images -q)
+# docker rmi $(docker images -q)
+# docker stop $(docker ps -a -q)
+# docker rm $(docker ps -a -q)
+# docker rmi $(docker images -q)

@@ -1,26 +1,27 @@
-#!/bin/sh
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    reload.sh                                          :+:      :+:    :+:    #
+#    Dockerfile                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/15 17:45:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/15 17:46:15 by lrocca           ###   ########.fr        #
+#    Created: 2021/04/20 18:38:34 by lrocca            #+#    #+#              #
+#    Updated: 2021/04/21 18:04:25 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-reload() {
-	kubectl delete pod,deployment,services $1
-	docker build -t ft-services/$1 ./srcs/$1
-	kubectl apply -f ./srcs/$1/$1.yaml
-}
+FROM	alpine
 
-# reload nginx
-# reload mysql
-# reload phpmyadmin
-# reload wordpress
-# reload grafana
-reload telegraf
-# reload influxdb
+EXPOSE	8125
+
+ARG		T_ARCHIVE=telegraf-1.18.1_static_linux_amd64.tar.gz
+
+# packages
+RUN		apk update && apk upgrade
+
+# telegraf
+RUN		wget https://dl.influxdata.com/telegraf/releases/$T_ARCHIVE
+RUN		tar -xf $T_ARCHIVE --strip-components=2
+RUN		rm -rf $T_ARCHIVE /etc/telegraf/telegraf.conf
+
+CMD		/usr/bin/telegraf
