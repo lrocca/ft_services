@@ -1,0 +1,33 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Dockerfile                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/04/23 17:43:56 by lrocca            #+#    #+#              #
+#    Updated: 2021/04/23 18:59:21 by lrocca           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+FROM	alpine
+
+EXPOSE	20-21
+
+# packages
+RUN		apk update && apk upgrade
+
+# install vsftpd
+RUN		apk add vsftpd openssl
+
+# add and set user password
+RUN		adduser -D -h /var/ftp admin
+RUN		echo "admin:password" | chpasswd
+
+# ssl certificate
+RUN		openssl req -newkey rsa:2048 -nodes -days 365 -x509 \
+		-subj "/C=IT/ST=Roma/L=Roma/O=lrocca/OU=Void/CN=localhost" \
+		-keyout /etc/ssl/private/tls.key -out /etc/ssl/private/tls.crt
+
+# start daemon
+CMD		/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
