@@ -1,0 +1,65 @@
+// ft_services by lrocca
+// https://projects.intra.42.fr/ft_services/lrocca
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		"Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100vh;
+	text-align: center;
+	background-color: #111;
+	color: #eee;
+	margin: 0;
+}
+ul {
+	margin: 1rem;
+	list-style: none;
+	padding: 0;
+}
+li {
+	line-height: 1.5;
+}
+a {
+	color: cyan;
+	text-decoration: none;
+}
+a:visited {
+	color: fuchsia;
+}
+a:hover {
+	color: orange;
+}
+footer {
+	font-size: small;
+}
+footer a {
+	font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+		"Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+		"Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+}
+a img {
+	animation: rotating 2.5s linear infinite;
+	width: 10vh;
+	height: 10vh;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: 79%;
+}
+@keyframes rotating {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

@@ -1,23 +1,26 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Dockerfile                                         :+:      :+:    :+:    #
+#    influxdb.yaml                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/19 20:22:06 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/03 19:16:16 by lrocca           ###   ########.fr        #
+#    Created: 2021/05/03 19:31:17 by lrocca            #+#    #+#              #
+#    Updated: 2021/05/03 20:28:24 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FROM	alpine
-
-EXPOSE	8086
-
-# packages
-RUN		apk update && apk upgrade
-RUN		apk add --no-cache influxdb
-
-# start
-CMD		/usr/sbin/influxd
-
+apiVersion: 1
+datasources:
+- name: InfluxDB
+  orgId: 1
+  type: influxdb
+  access: proxy
+  url: http://influxdb:8086
+  database: telegraf
+  isDefault: false
+  version: 1
+  editable: false
+  basicAuth: true
+  basicAuthUser: lrocca
+  basicAuthPassword: "42424242"

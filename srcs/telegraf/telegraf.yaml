@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/20 21:10:51 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/21 01:02:46 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/03 19:25:36 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,5 +92,5 @@ data:
       urls = ["http://influxdb:8086"]
       skip_database_creation = false
       database = "telegraf"
-      username = "admin"
-      password = "password"
+      username = "lrocca"
+      password = "42424242"

@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/19 19:36:19 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/21 01:16:10 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/03 19:37:53 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -258,10 +258,10 @@ data:
     disable_initial_admin_creation = false
 
     # default admin user, created on startup
-    admin_user = admin
+    admin_user = lrocca
 
     # default admin password, can be changed before first start of grafana, or in profile settings
-    admin_password = password
+    admin_password = "42424242"
 
     # used for signing
     secret_key = SW2YcwTIb9zpOOhoPsMm
