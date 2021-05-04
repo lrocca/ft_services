@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/23 17:43:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/03 18:11:59 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/04 17:05:00 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ RUN		apk update && apk upgrade
 RUN		apk add vsftpd openssl
 
 # add and set user password
-RUN		adduser -D -h /var/ftp admin
+RUN		adduser -D -h /var/ftp lrocca
 RUN		echo "lrocca:42424242" | chpasswd
 RUN		touch /var/ftp/wow.awesome
 
