@@ -50,4 +50,5 @@ deploy telegraf
 deploy grafana
 deploy influxdb
 deploy ftps
+sleep 3
 kubectl exec -it `kubectl get pods | grep mysql | tr ' ' '\n' | head -n 1` -- sh /tmp/undump.sh
