@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/23 20:20:54 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/23 20:35:13 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 17:26:53 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ftps-config
+  labels:
+    app: ftps
 data:
   vsftpd.conf: |
     # ################
