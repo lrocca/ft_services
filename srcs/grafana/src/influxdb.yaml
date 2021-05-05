@@ -6,21 +6,22 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 19:31:17 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/03 20:28:24 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 17:37:59 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 apiVersion: 1
+
 datasources:
 - name: InfluxDB
-  orgId: 1
   type: influxdb
   access: proxy
-  url: http://influxdb:8086
   database: telegraf
-  isDefault: false
-  version: 1
+  url: http://influxdb:8086
+  isDefault: true
   editable: false
-  basicAuth: true
-  basicAuthUser: lrocca
-  basicAuthPassword: "42424242"
+  user: admin
+  secureJsonData:
+    password: "42424242"
+  jsonData:
+    httpMode: GET

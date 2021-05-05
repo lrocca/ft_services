@@ -6,21 +6,19 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/03 19:32:24 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/03 19:32:25 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 16:55:43 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
 apiVersion: 1
+
 providers:
 - name: 'dashboards'
-  orgId: 1
-  folder: ''
-  folderUid: ''
   type: file
-  disableDeletion: false
+  disableDeletion: true
   editable: true
   updateIntervalSeconds: 10
   allowUiUpdates: true
   options:
-    path: /usr/share/grafana/public/dashboards
+    path: /etc/dashboards
+    foldersFromFilesStructure: true

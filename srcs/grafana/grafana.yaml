@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/19 19:36:19 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/03 19:37:53 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 17:36:52 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-config
+  labels:
+    app: grafana
 data:
   grafana.ini: |
     ##################### Grafana Configuration Defaults #####################
@@ -82,19 +84,19 @@ data:
     #################################### Paths ###############################
     [paths]
     # Path to where grafana can store temp files, sessions, and the sqlite3 db (if that is used)
-    data = /var/lib/grafana/data
+    data = data
 
     # Temporary files in `data` directory older than given duration will be removed
     temp_data_lifetime = 24h
 
     # Directory where grafana can store logs
-    logs = /var/lib/grafana/logs
+    logs = data/log
 
     # Directory where grafana will automatically scan and look for plugins
-    plugins = /var/lib/grafana/plugins
+    plugins = data/plugins
 
     # folder that contains provisioning config files that grafana will apply on startup and while running.
-    provisioning = /var/lib/grafana/provisioning
+    provisioning = conf/provisioning
 
     #################################### Server ##############################
     [server]
@@ -340,7 +342,7 @@ data:
     min_refresh_interval = 5s
 
     # Path to the default home dashboard. If this value is empty, then Grafana uses StaticRootPath + "dashboards/home.json"
-    default_home_dashboard_path =
+    default_home_dashboard_path = /etc/dashboards/ft_services.json
 
     ################################### Data sources #########################
     [datasources]
