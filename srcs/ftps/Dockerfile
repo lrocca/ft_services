@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/23 17:43:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/05/05 17:14:34 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 18:01:29 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RUN		apk add vsftpd openssl
 # add and set user password
 RUN		adduser -D -h /var/ftp lrocca
 RUN		echo "lrocca:42424242" | chpasswd
-RUN		cat "https://github.com/leeoocca/awesome-42" >> /var/ftp/42.awesome
+RUN		echo "https://github.com/leeoocca/awesome-42" >> /var/ftp/42.awesome
 
 # ssl certificate
 RUN		openssl req -newkey rsa:2048 -nodes -days 365 -x509 \
