@@ -12,15 +12,16 @@
 # **************************************************************************** #
 
 reload() {
-	kubectl delete pod,deployment,services $1
+	# kubectl delete pod,deployment,services $1
+	kubectl delete -f ./srcs/$1
 	docker build -t ft-services/$1 ./srcs/$1
 	kubectl apply -f ./srcs/$1/$1.yaml
 }
 
-# reload nginx
+reload nginx
 # reload mysql
 # reload phpmyadmin
 # reload wordpress
 # reload grafana
-reload telegraf
+# reload telegraf
 # reload influxdb
