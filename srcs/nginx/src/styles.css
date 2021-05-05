@@ -39,6 +39,13 @@ a:visited {
 a:hover {
 	color: orange;
 }
+table {
+	max-width: max-content;
+	margin: 0 auto;
+}
+small {
+	margin-bottom: 1rem;
+}
 footer {
 	font-size: small;
 }

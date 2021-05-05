@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/14 15:10:19 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/19 17:25:58 by lrocca           ###   ########.fr        #
+#    Updated: 2021/05/05 16:55:15 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,10 +54,6 @@ spec:
       labels:
         app: nginx
     spec:
-      # volumes:
-      #   - name: tls-volumes
-      #     secret:
-      #       secretName: secret-tls
       containers:
       - name: nginx
         image: ft-services/nginx
@@ -69,9 +65,3 @@ spec:
           name: https
         - containerPort: 22
           name: ssh
-        # volumeMounts:
-        # - mountPath: /etc/nginx/ssl
-        #   name: tls-volumes
-        # livenessProbe:
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 5
